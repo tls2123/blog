@@ -1,31 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Link from 'next/link';
 
 import styled from 'styled-components';
-import {Input} from 'antd';
+import {HomeOutlined} from '@ant-design/icons';
 
 const MenuHead = styled.ul`
     display: flex;
     justify-content: space-between;
     background-color: #ffffff;
-    text-align: center;
+
     border-bottom: solid 1px #E2E2E2;
 `;
 const Item = styled.li`
     display: block;
     padding: 1em;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
 
     a{
         text-decoration: none;
         color: black;
+
+        &.profile{
+            margin-right: 2em;
+        }
+
     }
-`;
-const SearchInput = styled(Input.Search)`
-    verticalAlign: 'middle';
-    padding-left: 10px;
 `;
 const Container = styled.div`
     display: flex;
@@ -33,21 +34,31 @@ const Container = styled.div`
     text-align: center;
 `;
 const AppLayout = ({children}) => {
+    const [me, setMe] = useState(false);
 
     return(
         <div>
+            {me ?
             <MenuHead>
                 <Item>
-                    <Link href='/'><a>sini</a></Link>
+                    <Link href='/'><a><HomeOutlined /></a></Link>
                 </Item>
                 <Item>
-                    <Link href='/'><a>sini</a></Link>
-                </Item>
-                <Item>
-                    <Link href='/profile' className='profile'><a>profile</a></Link>
-                    <SearchInput enterButton/>  
+                    <Link href='/profile'><a className='profile'>About</a></Link>
+                    <Link href='/write'><a>Write</a></Link>
                 </Item>
             </MenuHead>
+            : 
+            <MenuHead>
+                <Item>
+                    <Link href='/'><a><HomeOutlined /></a></Link>
+                </Item>
+                <Item>
+                    <Link href='/profile'><a className='profile'>About</a></Link>
+                    <Link href='/login'><a>Admin</a></Link>
+                </Item>
+            </MenuHead>
+            }
             <Container>
                 {children}
             </Container>
