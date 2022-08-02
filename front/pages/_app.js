@@ -2,6 +2,7 @@
 //inde.js 에 들어가는 component
 import React from "react";
 import Head from 'next/head'
+import wrapper from "../store/configureStore";
 import 'antd/dist/antd.css'
 
 const App = ({Component}) => {
@@ -16,4 +17,4 @@ const App = ({Component}) => {
     )
 };
 
-export default App;
+export default wrapper.withRedux(App);

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux'
 
 import styled from 'styled-components';
 import {HomeOutlined} from '@ant-design/icons';
@@ -34,7 +35,7 @@ const Container = styled.div`
     text-align: center;
 `;
 const AppLayout = ({children}) => {
-    const [me, setMe] = useState(false);
+    const me = useSelector((state) => state.user.me);
 
     return(
         <div>
