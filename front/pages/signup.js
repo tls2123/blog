@@ -4,7 +4,7 @@ import AppLayout from '../components/AppLayout';
 import SignupForm from '../components/SignupForm';
 
 
-const Signup = (props) => {
+const Signup = () => {
     return (
         <AppLayout>
             <SignupForm />

@@ -1,10 +1,13 @@
 import React from 'react';
 
 import AppLayout from '../components/AppLayout';
+import PostForm from '../components/PostForm';
 
 const Write = () => {
     return (
-        <AppLayout>Write</AppLayout>
+        <AppLayout>
+            <PostForm />
+        </AppLayout>
     )
 }
 

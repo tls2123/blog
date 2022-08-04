@@ -1,10 +1,12 @@
 import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
 import {useDispatch} from 'react-redux';
+
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
+
 import useInput from '../hooks/useInput';
-import { loginAction } from '../reducers';
+import { loginAction } from '../reducers/user';
 
 const Container = styled.div`
     margin-top: 10rem;

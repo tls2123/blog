@@ -17,6 +17,7 @@ const SignupForm = (props) => {
     const [passwordError, setPasswordError] = useState(false);
 
     const [id, onChangeId] = useInput('');
+    const [nick, onChangeNick] = useInput('');
     const [password, onChangePassword] = useInput('');
 
     const onSubmit = () => {
@@ -42,6 +43,10 @@ const SignupForm = (props) => {
                 <FormBlock>
                     <label htmlFor='user-password'>비밀번호</label>
                     <Input name='user-password' value={password} required onChange={onChangePassword}/>
+                </FormBlock>
+                <FormBlock>
+                    <label htmlFor="user-nick">닉네임</label>
+                    <Input name="user-nick" value={nick} required onChange={onChangeNick} />
                 </FormBlock>
                 <FormBlock>
                     <label htmlFor='user-password-check'>비밀번호체크</label>

@@ -3,13 +3,13 @@ import {useSelector} from 'react-redux';
 
 import LoginForm from '../components/LoginForm';
 import AppLayout from '../components/AppLayout';
-import PostForm from '../components/PostFrom';
+import PostForm from '../components/PostForm';
 
 const Login = () => {
-    const me = useSelector((state) => state.user.me);
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
     return (
         <AppLayout>
-            {me ? <PostForm /> : <LoginForm />}
+            {isLoggedIn ? <PostForm /> : <LoginForm />}
         </AppLayout>
     )
 }

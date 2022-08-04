@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux'
 
 import styled from 'styled-components';
 import {HomeOutlined} from '@ant-design/icons';
+import {Button, Input} from 'antd';
+
+import {logoutAction} from '../reducers/user';
+
 
 const MenuHead = styled.ul`
     display: flex;
@@ -34,29 +38,50 @@ const Container = styled.div`
     justify-content: center;
     text-align: center;
 `;
+
 const AppLayout = ({children}) => {
-    const me = useSelector((state) => state.user.me);
+    const dispatch = useDispatch();
+
+    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+
+    const onLogOut = useCallback(() => {
+        dispatch(logoutAction());
+    }, []);
 
     return(
         <div>
-            {me ?
+            {isLoggedIn ?
             <MenuHead>
                 <Item>
+                    <Link href='/profile'><a className='profile'>About</a></Link>
+                    &nbsp;
                     <Link href='/'><a><HomeOutlined /></a></Link>
                 </Item>
                 <Item>
-                    <Link href='/profile'><a className='profile'>About</a></Link>
+                    <Input.Search style={{width: '400px'}}/>
+                </Item>
+                <Item>
+                    <Link href='/'><a>Recommend</a></Link>
+                    &nbsp;&nbsp;
                     <Link href='/write'><a>Write</a></Link>
+                    &nbsp;&nbsp;
+                    <Button onClick={onLogOut}>LogOut</Button>
                 </Item>
             </MenuHead>
             : 
             <MenuHead>
                 <Item>
+                    <Link href='/profile'><a className='profile'>About</a></Link>
+                    &nbsp;
                     <Link href='/'><a><HomeOutlined /></a></Link>
                 </Item>
                 <Item>
-                    <Link href='/profile'><a className='profile'>About</a></Link>
-                    <Link href='/login'><a>Admin</a></Link>
+                    <Input.Search style={{width: '400px'}}/>
+                </Item>
+                <Item>
+                    <Link href='/'><a>Recommend</a></Link>
+                    &nbsp;&nbsp;
+                    <Link href='/login'><a>Login</a></Link>
                 </Item>
             </MenuHead>
             }
