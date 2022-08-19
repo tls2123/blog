@@ -1,25 +1,30 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
 
 import styled from 'styled-components';
 import { Form, Input, Button } from 'antd';
 
 import { addPost } from '../reducers/post';
+import useInput from '../hooks/useInput';
 
 const PostForm = () => {
     const dispatch = useDispatch();
-    const { imagePaths } = useSelector((state) => state.post);
-    const [text, setText] = useState('');
+    const { imagePaths, addPostDone, addPostLoading } = useSelector((state) => state.post);
+    const [text, onChangeText, setText] = useInput('');
     const imageInput = useRef();
 
-    const onChangeText = useCallback((e) => {
-        setText(e.target.value);
-    }, []);
+    useEffect(() => {
+        if(addPostDone){
+            setText('');
+            console.log('안되는 상황?')
+        }
+    }, [addPostDone]);
 
     const onSubmit= useCallback(() => {
-        dispatch(addPost);
-        setText('');
-    }, []);
+        dispatch(addPost(text));
+        //setText(''); 여기서 보내고 지워버리면 백에서 실패하면 글은 지워지게 된다. 그럼 글은 사라지고 반복 useEffect로
+    }, [text]);
 
     const onClickImageUpload = useCallback(() => {
         imageInput.current.click();
@@ -31,7 +36,7 @@ const PostForm = () => {
             <div>
                 <input type='file' multiple hidden ref={imageInput}/>
                 <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-                <Button type='primary' style={{float: 'right '}} htmlType='submit'>올리기</Button>
+                <Button type='primary' style={{float: 'right '}} htmlType='submit' loading={addPostLoading} onClick={() => Router.push('/')}>올리기</Button>
             </div>
             <div>
                 {imagePaths.map((v) => {

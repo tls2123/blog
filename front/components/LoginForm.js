@@ -1,12 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import Link from 'next/link';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import Router from 'next/router';
 
 import { Button, Form, Input } from 'antd';
 import styled from 'styled-components';
 
 import useInput from '../hooks/useInput';
-import { loginAction } from '../reducers/user';
+import { loginRequestAction } from '../reducers/user';
 
 const Container = styled.div`
     margin-top: 10rem;
@@ -14,13 +15,14 @@ const Container = styled.div`
 
 const LoginForm = () => {
     const dispatch = useDispatch();
-    const [id, onChangeId] = useInput('');
+    const { logInLoading } = useSelector((state) => state.user)
+    const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
     
     const onSubmitForm = useCallback(() => {
-        console.log({id, password});
-        dispatch(loginAction({ id, password }));
-    }, [id, password]);
+        console.log({email, password});
+        dispatch(loginRequestAction({ email, password }));
+    }, [email, password]);
     
     return (
         <Container>
@@ -30,9 +32,9 @@ const LoginForm = () => {
                 onFinish={onSubmitForm}
                 autoComplete="off"
             >
-                <Form.Item label="Id" name="user-id"
+                <Form.Item label="Email" name="user-email"
                     rules={[ {required: true, message: 'Please input your username!'},]}>
-                <Input name='user-id' value={id} onChange={onChangeId} required/>
+                <Input name='user-email' value={email} type='email' onChange={onChangeEmail} required/>
                 </Form.Item>
                 <Form.Item label="Password" name="user-password" 
                     rules={[{required: true, message: 'Please input your password!'},]}>
@@ -40,7 +42,7 @@ const LoginForm = () => {
                 </Form.Item>
 
                 <Form.Item wrapperCol={{offset: 8, span: 16 }}>
-                    <Button htmlType="submit" loading={false} >
+                    <Button htmlType="submit" loading={logInLoading} onClick={() => Router.push('/')}>
                         로그인
                     </Button>
                     &nbsp;&nbsp;

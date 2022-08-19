@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import {HomeOutlined} from '@ant-design/icons';
 import {Button, Input} from 'antd';
 
-import {logoutAction} from '../reducers/user';
+import {LOG_OUT_REQUEST} from '../reducers/user';
 
 
 const MenuHead = styled.ul`
@@ -42,15 +42,17 @@ const Container = styled.div`
 const AppLayout = ({children}) => {
     const dispatch = useDispatch();
 
-    const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+    const {me, logOutLoading} = useSelector((state) => state.user);
 
     const onLogOut = useCallback(() => {
-        dispatch(logoutAction());
+        dispatch({
+            type: LOG_OUT_REQUEST,
+          });
     }, []);
 
     return(
         <div>
-            {isLoggedIn ?
+            {me ?
             <MenuHead>
                 <Item>
                     <Link href='/profile'><a className='profile'>About</a></Link>
@@ -65,7 +67,7 @@ const AppLayout = ({children}) => {
                     &nbsp;&nbsp;
                     <Link href='/write'><a>Write</a></Link>
                     &nbsp;&nbsp;
-                    <Button onClick={onLogOut}>LogOut</Button>
+                    <Button onClick={onLogOut} loading={logOutLoading}>LogOut</Button>
                 </Item>
             </MenuHead>
             : 
